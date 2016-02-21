@@ -1,11 +1,17 @@
 import sys
 import datetime
-from sqlalchemy import Date, String, Column, Integer, ForeignKey
+from sqlalchemy import Table, Date, String, Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 
 Base = declarative_base()
+
+
+association_table = Table("association", Base.metadata,
+					Column("puppy_id", Integer, ForeignKey("puppy.id")),
+					Column("adopters_id", Integer, ForeignKey("adopters.id")),
+					)
 
 class Shelter(Base):
 	"""docstring for Shelter"""
@@ -37,6 +43,8 @@ class Puppy(Base):
 	shelter = relationship("Shelter")
 	puppyprofile = relationship("PuppyProfile", uselist=False, back_populates="puppy")
 
+	adopters = relationship("adopters", secondary=association_table, back_populates="puppy")
+
 
 class PuppyProfile(Base):
 	"""docstring for PuppyProfile"""
@@ -49,6 +57,19 @@ class PuppyProfile(Base):
 	puppy_id = Column(Integer, ForeignKey("puppy.id"))
 
 	puppy = relationship("Puppy", back_populates="puppyprofile")
+
+
+class adopters(Base):
+	"""docstring for adopters"""
+
+	__tablename__ = "adopters"
+
+	name = Column(String(100))
+	id   = Column(Integer, primary_key=True)
+	phone = Column(String(10))
+
+	puppy = relationship("Puppy", secondary=association_table, back_populates="adopters")
+		
 		
 
 engine = create_engine("sqlite:///puppies.db")
