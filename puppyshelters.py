@@ -34,7 +34,22 @@ class Puppy(Base):
 	picture = Column(String)
 	shelter_id = Column(Integer, ForeignKey("shelter.id"))
 
-	shelter = relationship(Shelter)
+	shelter = relationship("Shelter")
+	puppyprofile = relationship("PuppyProfile", uselist=False, back_populates="puppy")
+
+
+class PuppyProfile(Base):
+	"""docstring for PuppyProfile"""
+
+	__tablename__ = "puppyprofile"
+
+	photoUrl = Column(String(120))
+	description = Column(String(220))
+	specialNeeds = Column(String(200))
+	puppy_id = Column(Integer, ForeignKey("puppy.id"))
+
+	puppy = relationship("Puppy", back_populates="puppyprofile")
+		
 
 engine = create_engine("sqlite:///puppies.db")
 Base.metadata.create_all(engine)
