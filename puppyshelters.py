@@ -24,6 +24,8 @@ class Shelter(Base):
 	state = Column(String(50))
 	zipCode = Column(Integer)
 	website = Column(String(120))
+	maximum_capacity = Column(Integer)
+	current_occupancy = Column(Integer)
 	id = Column(Integer, primary_key=True)
 
 
