@@ -28,6 +28,12 @@ class Shelter(Base):
 	current_occupancy = Column(Integer)
 	id = Column(Integer, primary_key=True)
 
+	@hybrid_property
+	def maximum_capacity(self):
+		return self.maximum_capacity
+
+
+	
 
 class Puppy(Base):
 	"""docstring for Puppy"""
