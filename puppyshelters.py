@@ -1,6 +1,7 @@
 import sys
 import datetime
 from sqlalchemy import Table, Date, String, Column, Integer, ForeignKey
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
@@ -28,11 +29,7 @@ class Shelter(Base):
 	current_occupancy = Column(Integer)
 	id = Column(Integer, primary_key=True)
 
-	@hybrid_property
-	def maximum_capacity(self):
-		return self.maximum_capacity
 
-	
 
 class Puppy(Base):
 	"""docstring for Puppy"""
@@ -64,6 +61,7 @@ class PuppyProfile(Base):
 	puppy_id = Column(Integer, ForeignKey("puppy.id"))
 
 	puppy = relationship("Puppy", back_populates="puppyprofile")
+	id = Column(Integer, primary_key=True)
 
 
 class adopters(Base):
