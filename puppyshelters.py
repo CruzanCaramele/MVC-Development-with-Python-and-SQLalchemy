@@ -32,7 +32,6 @@ class Shelter(Base):
 	def maximum_capacity(self):
 		return self.maximum_capacity
 
-
 	
 
 class Puppy(Base):
